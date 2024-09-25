@@ -4,8 +4,10 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "lint": "eslint",
         "start": "cross-env DEBUG=notes:* node ./app.js",
-        "lint": "eslint"
+        "server1": "cross-env DEBUG=notes:* PORT=3001 node ./app.js",
+        "server2": "cross-env DEBUG=notes:* PORT=3002 node ./app.js"
     },
     "dependencies": {
         "cross-env": "^7.0.3",
