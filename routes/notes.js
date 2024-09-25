@@ -43,3 +43,28 @@ router.get('/view', async (req, res, next) => {
         next(e);
     }
 });
+
+// Confirm delete the note
+router.get('/destroy', async (req, res, next) => {
+    try {
+        let note = await notes.read(req.query.key);
+
+        res.render('note_delete', {
+            title: note.title ?? '',
+            noteKey: req.query.key,
+            note: note
+        });
+    } catch (e) {
+        next(e);
+    }
+});
+
+// Delete the note (DELETE)
+router.post('/destroy/confirm', async (req, res, next) => {
+    try {
+        await notes.destroy(req.body.noteKey);
+        res.redirect('/');
+    } catch(e) {
+        next(e);
+    }
+});

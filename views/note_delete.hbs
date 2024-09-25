@@ -1,0 +1,14 @@
+
+{{> note_display }}
+
+<br/>
+
+This action cannot be undone. Do you really want to delete this note?
+
+<form method='POST' action='/notes/destroy/confirm'>
+    <p>
+        <input type='hidden' name='noteKey' value={{noteKey}}>
+        <input type='submit' value='Delete' />
+        <a href='/notes/view?key={{noteKey}}'>Cancel</a>
+    </p>
+</form>

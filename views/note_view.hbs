@@ -1,11 +1,5 @@
 
-{{#if note}}<h3>{{ note.title }}</h3>{{/if}}
-
-{{#if note}}<p>{{ note.content }}</p>{{/if}}
-
-<p>
-Key: {{ noteKey }}
-</p>
+{{> note_display }}
 
 {{#if noteKey }}
     <hr/>
