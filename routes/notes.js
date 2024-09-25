@@ -17,11 +17,29 @@ router.get('/add', async (req, res, next) => {
     }
 });
 
+router.get('/edit', async (req, res, next) => {
+    try {
+        const note = await notes.read(req.query.key);
+
+        res.render('note_edit', {
+            title: 'Edit Note',
+            create: false,
+            noteKey: req.query.key ?? '',
+            note: note
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
 // Save a new note (CREATE/UPDATE)
 router.post('/save', async (req, res, next) => {
     try {
-        if (req.body.operation === 'create') {
+        const operation = req.body.operation;
+        if (operation === 'create') {
             await notes.create(req.body.noteKey, req.body.title, req.body.content);
+        } else if (operation === 'update') {
+            await notes.update(req.body.noteKey, req.body.title, req.body.content);
         }
         res.redirect('/notes/view?key=' + req.body.noteKey);
     } catch (e) {

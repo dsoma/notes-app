@@ -12,17 +12,18 @@
         {{#if create}}
             <input type='text' name='noteKey' value=''/>
         {{else}}
-            
+            {{#if note}}{{noteKey}}{{/if}}
+            <input type='hidden' name='noteKey' value='{{#if note}}{{noteKey}}{{/if}}'/>
         {{/if}}
     </p>
 
     <p>
-    Title: <input type='text' name='title' value=''/>
+    Title: <input type='text' name='title' value='{{#if note}}{{note.title}}{{/if}}'/>
     </p>
 
     <br/>
 
-    <textarea rows=5 cols=80 name='content'></textarea>
+    <textarea rows=5 cols=80 name='content'>{{#if note}}{{note.content}}{{/if}}</textarea>
 
     <br/>
 
