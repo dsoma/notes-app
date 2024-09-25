@@ -3,13 +3,18 @@ import * as path from 'path';
 import * as url from 'url';
 import { default as hbs } from'hbs';
 import { default as logger } from 'morgan';
+import { default as bodyParser } from 'body-parser';
 
 import { normalizePort } from './app-utils.js';
 import { default as ErrorHandler } from './error-handler.js';
 
+import { NotesMemCache } from './models/notes-memcache.js';
+
 import { router as indexRouter } from './routes/index.js';
+import { router as notesRouter } from './routes/notes.js';
 
 export const app = express();
+export const NotesStore = new NotesMemCache();
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
@@ -25,9 +30,12 @@ app.set('env', 'development');
 app.set('port', PORT);
 
 app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/notes', notesRouter);
 
 // error handlers
 app.use(ErrorHandler.handle404);
