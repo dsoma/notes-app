@@ -10,6 +10,7 @@
         "server2": "cross-env DEBUG=notes:* PORT=3002 node ./app.js"
     },
     "dependencies": {
+        "bootstrap": "^5.3.3",
         "cross-env": "^7.0.3",
         "express": "~4.21.0",
         "hbs": "~4.2.0",
