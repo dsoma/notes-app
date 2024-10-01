@@ -1,7 +1,11 @@
-<ul>
-    {{#each notes}}
-        <li>
-            {{key}} : <a href="/notes/view?key={{key}}">{{title}}</a>
-        </li>
-    {{/each}}
-</ul>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 btn-group-vertical" role="group">
+            {{#each notes}}
+                <a class="btn btn-lg btn-block btn-outline-dark" href="/notes/view?key={{key}}">{{title}}</a>
+            {{/each}}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>

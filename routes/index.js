@@ -7,7 +7,7 @@ export const router = express.Router();
 router.get('/', async (req, res, next) => {
     try {
         const allNotes = await NotesStore.getAllNotes();
-        res.render('index', { title: 'Notes App', notes: allNotes });
+        res.render('index', { title: '', notes: allNotes });
     } catch (err) {
         next(err);
     }

@@ -1,6 +1,5 @@
 body {
-    padding: 5px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font: 14px "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
 }
 
 a {
@@ -8,6 +7,18 @@ a {
 }
 
 header {
-    background: #eeeeee;
+    background-color: #2E8B57; /* Sea Green */
+}
+
+.mid-section {
+    padding: 10px;
+}
+
+.note-head {
+    background-color: #FFF5EE; /* Sea Shell */
+    padding: 10px;
+}
+
+.note-content {
     padding: 5px;
 }

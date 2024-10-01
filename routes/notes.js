@@ -53,7 +53,7 @@ router.get('/view', async (req, res, next) => {
         let note = await notes.read(req.query.key);
 
         res.render('note_view', {
-            title: note.title ?? '',
+            title: '',
             noteKey: req.query.key,
             note: note
         });
