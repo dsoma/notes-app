@@ -3,12 +3,36 @@
 
 <br/>
 
-This action cannot be undone. Do you really want to delete this note?
+<div class="container-fluid">
+    <div class="row mb-2">
+        <span class="col-md-2"></span>
+        <div class="col-md-8 text-danger text-center">
+            <h4 class="">This action cannot be undone. Do you really want to delete this note?</h4>
+        </div>
+        <span class="col-md-2"></span>
+    </div>
 
-<form method='POST' action='/notes/destroy/confirm'>
-    <p>
-        <input type='hidden' name='noteKey' value={{noteKey}}>
-        <input type='submit' value='Delete' />
-        <a href='/notes/view?key={{noteKey}}'>Cancel</a>
-    </p>
-</form>
+    <div class="row mb-2">
+        <span class="col-md-2"></span>
+        <div class="col-md-8 d-flex justify-content-center">
+            <form method='POST' action='/notes/destroy/confirm'>
+                <div class="container-fluid">
+                    <input type='hidden' name='noteKey' value={{noteKey}}>
+
+                    <div class="btn-group" role="group">
+                        <button type="submit" value='Delete' class="btn btn-danger" data-bs-theme="dark">
+                        <i data-feather="trash-2" class="d-inline-block align-text-center me-2"></i>Delete
+                        </button>
+
+                        <a class="btn btn-secondary" data-bs-theme="dark" href='/notes/view?key={{noteKey}}' role="button">
+                        <i data-feather="x" class="d-inline-block align-text-center me-2"></i>Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <span class="col-md-2"></span>
+    </div>
+</div>
+
+
+
