@@ -10,7 +10,7 @@
     <!-- Input Key -->
     <div class="form-group row align-items-center mb-2">
         <div class="col-md-2"></div>
-        <label for="notekey" class="col-md-1 col-form-label">Key</label>
+        <label for="notekey" class="col-md-1 col-form-label"><h5>Key</h5></label>
         {{#if create}}
             <div class="col-md-7">
                 <input type='text' class="form-control" placeholder="Note key" name='noteKey' value=''/>   
@@ -27,7 +27,7 @@
     <!-- Input Note Title -->
     <div class="form-group row align-items-center mb-2">
         <div class="col-md-2"></div>
-        <label for="title" class="col-md-1 col-form-label">Title</label>
+        <label for="title" class="col-md-1 col-form-label"><h5>Title</h5></label>
         <div class="col-md-7">
             <input type='text' class="form-control" placeholder="Note Title" name='title' id="title"
                    value='{{#if note}}{{note.title}}{{/if}}'/>
@@ -38,7 +38,7 @@
     <!-- Input Note Content -->
     <div class="form-group row align-items-center mb-2">
         <div class="col-md-2"></div>
-        <label for="content" class="col-md-1 col-form-label">Note</label>
+        <label for="content" class="col-md-1 col-form-label"><h5>Note</h5></label>
         <div class="col-md-7">
         <textarea class="form-control col-md-7" name="content" rows="5">{{#if note}}{{note.content}}{{/if}}</textarea>
         </div>
@@ -46,7 +46,7 @@
     </div>
     
     <div class="form-group row align-items-center mb-2 d-flex justify-content-center">
-        <button type="submit" class="col-auto btn note-btn-primary" data-bs-theme="dark">Submit</button>
+        <button type="submit" class="col-auto btn btn-primary" data-bs-theme="dark">Submit</button>
     </div>
     
 </div>

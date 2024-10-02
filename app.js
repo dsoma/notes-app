@@ -33,8 +33,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/assets/vendor/bootstrap', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist')));
+//app.use('/assets/vendor/bootstrap', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist')));
 app.use('/assets/vendor/feather-icons', express.static(path.join(__dirname, 'node_modules', 'feather-icons', 'dist')));
+app.use('/assets/vendor/bootstrap/js',
+        express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'js')));
+app.use('/assets/vendor/bootstrap/css', 
+        express.static(path.join(__dirname, 'theme', 'superhero')));
 
 app.use('/', indexRouter);
 app.use('/notes', notesRouter);

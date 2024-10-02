@@ -1,25 +1,26 @@
-<header class="navbar bd-navbar sticky-top navbar-expand-sm bg-gradient" data-bs-theme="dark">
+<nav class="navbar sticky-top navbar-expand-sm bg-primary bg-gradient" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
             <i data-feather="pen-tool" alt="Logo" width="35" height="28" class="d-inline-block align-text-bottom"></i>
-            <span class="text-light-emphasis fs-4 fw-bold">Notes</span>
+            <span class="fs-4 fw-bold">Notes</span>
         </a>
 
         <!-- Toggler button and dropdown navbar menu -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
-            <span class="text-light-emphasis fs-4 fw-lighter text-center col">{{title}}</span>
+            <span class="fs-4 text-center col">{{title}}</span>
 
             <div class="navbar-nav col-auto">
                 <a class="nav-item nav-link active" href="/notes/add">
                 <i data-feather="file-plus" width="36" height="28" alt="Add a note"
                     class="d-inline-block align-text-bottom"></i>
-                    <span class="text-light-emphasis fs-4 fw-light">Add</span>
+                    <span class="fs-4 fw-light">Add</span>
                 </a>
             </div>
             
         </div>
     </div>
-</header>
+</nav>

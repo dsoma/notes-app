@@ -6,16 +6,12 @@ a {
     color: #00B7FF;
 }
 
-header {
-    background-color: #2E8B57; /* Sea Green */
-}
-
 .mid-section {
     padding: 10px;
 }
 
 .note-head {
-    background-color: #FFF5EE; /* Sea Shell */
+    /* background-color: #FFF5EE; /* Sea Shell */
     padding: 10px;
 }
 

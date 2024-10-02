@@ -1,11 +1,18 @@
 <div class="container-fluid">
+    {{#each notes}}
     <div class="row">
         <div class="col-md-3"></div>
-        <div class="col-md-6 btn-group-vertical" role="group">
-            {{#each notes}}
-                <a class="btn btn-lg btn-block btn-outline-dark" href="/notes/view?key={{key}}">{{title}}</a>
-            {{/each}}
+        
+        <div class="col-md-6">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-body">
+                    <a href="/notes/view?key={{key}}" class="card-link"><h4 class="card-title">{{title}}</h4></a>
+                    <p class="card-text text-truncate">{{content}}</p>
+                </div>
+            </div>
         </div>
+        
         <div class="col-md-3"></div>
     </div>
+    {{/each}}
 </div>
