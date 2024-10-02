@@ -7,11 +7,17 @@
         "lint": "eslint",
         "start": "cross-env DEBUG=notes:* node ./app.js",
         "server1": "cross-env DEBUG=notes:* PORT=3001 node ./app.js",
-        "server2": "cross-env DEBUG=notes:* PORT=3002 node ./app.js"
+        "server2": "cross-env DEBUG=notes:* PORT=3002 node ./app.js",
+        "theme": "npm run theme-css && npm run theme-min-css",
+        "theme-css": "wget https://bootswatch.com/5/superhero/bootstrap.css -O theme/superhero/bootstrap.css",
+        "theme-min-css": "wget https://bootswatch.com/5/superhero/bootstrap.min.css -O theme/superhero/bootstrap.min.css",
+        "build": "npm run lint && npm run theme"
     },
     "dependencies": {
+        "bootstrap": "^5.3.3",
         "cross-env": "^7.0.3",
         "express": "~4.21.0",
+        "feather-icons": "^4.29.2",
         "hbs": "~4.2.0",
         "morgan": "~1.10.0"
     },

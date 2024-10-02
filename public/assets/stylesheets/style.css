@@ -1,0 +1,26 @@
+body {
+    font: 14px "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.mid-section {
+    padding: 10px;
+}
+
+.note-head {
+    /* background-color: #FFF5EE; /* Sea Shell */
+    padding: 10px;
+}
+
+.note-content {
+    padding: 5px;
+}
+
+.note-btn-primary {
+    background-color: #2E8B57; /* Sea Green */
+    font-weight: bold;
+    text-emphasis-color: white;
+}

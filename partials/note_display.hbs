@@ -1,9 +1,23 @@
-{{#if note}}<h3>{{ note.title }}</h3>{{/if}}
+<div class="container-fluid">
+    {{#if note}}
 
-{{#if note}}<p>{{ note.content }}</p>{{/if}}
+    <div class="row mb-2">
+        <span class="col-md-2"></span>
+        <div class="col-md-8 note-head text-center">
+            <h3 class="">{{ note.title }}</h3>
+        </div>
+        <span class="col-md-2"></span>
+    </div>
 
-<p>
-Key: {{ noteKey }}
-</p>
+    <div class="row">
+        <span class="col-md-2"></span>
+        <div class="col-md-8 note-content fs-6">
+            <p>{{ note.content }}</p>
+        </div>
+        <span class="col-md-2"></span>
+    </div>
+
+    {{/if}}
+</div>
 
 <hr/>
