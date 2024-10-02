@@ -22,3 +22,9 @@ header {
 .note-content {
     padding: 5px;
 }
+
+.note-btn-primary {
+    background-color: #2E8B57; /* Sea Green */
+    font-weight: bold;
+    text-emphasis-color: white;
+}
