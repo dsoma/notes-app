@@ -36,7 +36,6 @@ router.get('/edit', async (req, res, next) => {
 router.post('/save', async (req, res, next) => {
     try {
         const operation = req.body.operation;
-        console.log(`key = ${req.body.noteKey}`);
         if (operation === 'create') {
             await notes.create(req.body.noteKey, req.body.title, req.body.content);
         } else if (operation === 'update') {

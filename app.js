@@ -7,6 +7,7 @@ import { default as bodyParser } from 'body-parser';
 
 import { normalizePort } from './app-utils.js';
 import { default as ErrorHandler } from './error-handler.js';
+import { createLogFileStream, log, logError } from './app-logger.js';
 
 import { NotesMemCache } from './models/notes-memcache.js';
 
@@ -20,6 +21,7 @@ const __filename = url.fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 const APP_PORT   = 3000;
 const PORT       = normalizePort(process.env.PORT || APP_PORT);
+const LOG_FORMAT = process.env.REQ_LOG_FORMAT || 'dev';
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,11 +31,10 @@ hbs.registerPartials(path.join(__dirname, 'partials')); // partial docs
 app.set('env', 'development');
 app.set('port', PORT);
 
-app.use(logger('dev'));
+app.use(logger(LOG_FORMAT, { stream: createLogFileStream(__dirname) }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use('/assets/vendor/bootstrap', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist')));
 app.use('/assets/vendor/feather-icons', express.static(path.join(__dirname, 'node_modules', 'feather-icons', 'dist')));
 app.use('/assets/vendor/bootstrap/js',
         express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'js')));
@@ -48,9 +49,11 @@ app.use(ErrorHandler.handle404);
 app.use(ErrorHandler.basicErrorHandler);
 
 const server = app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
+    log(`App listening on port ${PORT}`);
 });
 
-server.on('error', (e) => {
-    console.log(e);
+server.on('error', (e) => { logError(e); });
+
+server.on('request', (req) => {
+    log(`${new Date().toISOString()} request ${req.method} ${req.url}`);
 });
