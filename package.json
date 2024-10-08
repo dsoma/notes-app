@@ -20,6 +20,7 @@
         "feather-icons": "^4.29.2",
         "fs-extra": "^11.2.0",
         "hbs": "~4.2.0",
+        "level": "^8.0.1",
         "morgan": "~1.10.0",
         "rotating-file-stream": "^3.2.5"
     },

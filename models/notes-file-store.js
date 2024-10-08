@@ -8,7 +8,6 @@ import { default as Note } from './notes.js';
 export default class NotesFileStore extends AbstractNotesStore {
     constructor() {
         super();
-        this._notes = [];
     }
 
     async create(key, title, content) {
@@ -50,13 +49,13 @@ export default class NotesFileStore extends AbstractNotesStore {
         return Promise.all(keys);
     }
 
-    async count()   {
+    async count() {
         const notesDir = await this._notesDir();
         const files = await fs.readdir(notesDir);
         return files.length;
     }
 
-    async close()   { /**/ }
+    async close() { /**/ }
 
     async _createOrUpdate(key, title, content) {
         const notesDir = await this._notesDir();
