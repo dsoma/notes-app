@@ -21,7 +21,7 @@ const APP_PORT   = 3000;
 const PORT       = normalizePort(process.env.PORT || APP_PORT);
 const LOG_FORMAT = process.env.REQ_LOG_FORMAT || 'dev';
 
-getNoteStore('file-store')
+getNoteStore('level-db')
 .then(store => {
     NotesStore = store;
 })
@@ -66,3 +66,14 @@ server.on('error', (e) => {
 server.on('request', (req) => {
     log(`${new Date().toISOString()} request ${req.method} ${req.url}`);
 });
+
+async function onExit() {
+    log('Closing . . .');
+    await NotesStore.close();
+    await server.close();
+    process.exit(0);
+}
+
+process.on('SIGTERM', onExit);
+process.on('SIGINT', onExit);
+process.on('SIGHUP', onExit);
