@@ -6,6 +6,7 @@ export default class AbstractNotesStore {
     async update(key, title, content) { /**/ }
     async destroy(key) { /**/ }
 
+    async getAllNotes() { /**/ }
     async keylist() { /**/ }
     async count()   { /**/ }
     async close()   { /**/ }
