@@ -2,7 +2,7 @@
 import { default as AbstractNotesStore } from './note-store.js'
 import { default as Note } from './notes.js'
 
-export class NotesMemCache extends AbstractNotesStore {
+export default class NotesMemCache extends AbstractNotesStore {
 
     constructor() {
         super();

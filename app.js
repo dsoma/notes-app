@@ -1,27 +1,33 @@
 import { default as express } from 'express';
 import * as path from 'path';
-import * as url from 'url';
 import { default as hbs } from'hbs';
 import { default as logger } from 'morgan';
 import { default as bodyParser } from 'body-parser';
 
+import { appRootDir } from './app-root-dir.js';
 import { normalizePort } from './app-utils.js';
 import { default as ErrorHandler } from './error-handler.js';
 import { createLogFileStream, log, logError } from './app-logger.js';
-
-import { NotesMemCache } from './models/notes-memcache.js';
+import { getNoteStore } from './models/note-store-factory.js';
 
 import { router as indexRouter } from './routes/index.js';
 import { router as notesRouter } from './routes/notes.js';
 
 export const app = express();
-export const NotesStore = new NotesMemCache();
+export let NotesStore;
 
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname  = path.dirname(__filename);
+const __dirname  = appRootDir;
 const APP_PORT   = 3000;
 const PORT       = normalizePort(process.env.PORT || APP_PORT);
 const LOG_FORMAT = process.env.REQ_LOG_FORMAT || 'dev';
+
+getNoteStore('file-store')
+.then(store => {
+    NotesStore = store;
+})
+.catch(e => {
+    ErrorHandler.onError({ code: 'ENOTESSTORE', e }, PORT);
+});
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -52,7 +58,10 @@ const server = app.listen(PORT, () => {
     log(`App listening on port ${PORT}`);
 });
 
-server.on('error', (e) => { logError(e); });
+server.on('error', (e) => { 
+    logError(e);
+    ErrorHandler.onError(e, PORT);
+});
 
 server.on('request', (req) => {
     log(`${new Date().toISOString()} request ${req.method} ${req.url}`);
