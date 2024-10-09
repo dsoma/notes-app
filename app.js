@@ -21,7 +21,7 @@ const APP_PORT   = 3000;
 const PORT       = normalizePort(process.env.PORT || APP_PORT);
 const LOG_FORMAT = process.env.REQ_LOG_FORMAT || 'dev';
 
-getNoteStore('level-db')
+getNoteStore('sqlite3')
 .then(store => {
     NotesStore = store;
 })
