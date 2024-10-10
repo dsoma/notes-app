@@ -13,7 +13,7 @@ export default class NotesSqliteDB extends AbstractNotesStore {
         const note = new Note(key, title, content);
         await new Promise((resolve, reject) => {
             const query = "INSERT INTO notes (key, title, content) " +
-                          "VALUES ( ?, ?, ?);";
+                          "VALUES ( ?, ?, ? );";
             this._db.run(query, [ key, title, content ], 
                 err => {
                     if (err) return reject(err);
@@ -84,7 +84,7 @@ export default class NotesSqliteDB extends AbstractNotesStore {
             this._db.all(query, (err, rows) => {
                 if (err) return reject(err);
                 const notes = [];
-                if (rows && rows.length) {
+                if (rows?.length) {
                     rows.map(row => {
                         notes.push(new Note(row.key, row.title, row.content));
                         return row;

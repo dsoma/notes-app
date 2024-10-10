@@ -28,15 +28,26 @@ export default class Note {
             throw new Error(`Not a valid note object ${jsonNote}`);
         }
 
-        const properties = Object.keys(noteData);
-        if (!properties.includes('key') || !properties.includes('title') || !properties.includes('content')) {
-            throw new Error(`Note does not contain valid keys ${jsonNote}`);
-        }
-
-        if (typeof noteData.key !== 'string' || typeof noteData.title !== 'string' || typeof noteData.content !== 'string') {
-            throw new Error(`Invalid key types in note ${jsonNote}`);
-        }
+        Note._validate(noteData);
 
         return new Note(noteData.key, noteData.title, noteData.content);
+    }
+
+    static fromSQNote(sqNote) {
+        if (typeof sqNote.key !== 'string' || typeof sqNote.title !== 'string' || typeof sqNote.content !== 'string') {
+            throw new Error(`Invalid key types in note ${sqNote}`);
+        }
+        return new Note(sqNote.key, sqNote.title, sqNote.content);
+    }
+
+    static _validate(noteObj) {
+        const properties = Object.keys(noteObj);
+        if (!properties.includes('key') || !properties.includes('title') || !properties.includes('content')) {
+            throw new Error(`Note does not contain valid keys ${noteObj}`);
+        }
+
+        if (typeof noteObj.key !== 'string' || typeof noteObj.title !== 'string' || typeof noteObj.content !== 'string') {
+            throw new Error(`Invalid key types in note ${noteObj}`);
+        }
     }
 }
