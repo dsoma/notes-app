@@ -23,6 +23,7 @@
         "hbs": "~4.2.0",
         "js-yaml": "^4.1.0",
         "level": "^8.0.1",
+        "mongodb": "^6.9.0",
         "morgan": "~1.10.0",
         "rotating-file-stream": "^3.2.5",
         "sequelize": "^6.37.4",

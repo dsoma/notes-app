@@ -22,6 +22,14 @@ export default class Note {
         });
     }
 
+    toJsonObj() {
+        return {
+            key: this._key,
+            title: this._title,
+            content: this._content
+        };
+    }
+
     static fromJson(jsonNote) {
         const noteData = JSON.parse(jsonNote);
         if (typeof noteData !== 'object') {
