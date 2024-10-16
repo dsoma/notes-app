@@ -1,0 +1,42 @@
+<div class="container-fluid mid-section-body" >
+    <div class="row mb-3">
+        <div class="col-md-5"></div>
+        <div class="col-md-2">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th scope="row">User name</th>
+                        <td>{{user.username}}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">First Name</th>
+                        <td>{{user.givenName}}</td>
+                    </tr>
+
+                    {{#if user.middleName}}
+                    <tr>
+                        <th scope="row">Middle Name</th>
+                        <td>{{user.middleName}}</td>
+                    </tr>
+                    {{/if}}
+
+                    {{#if user.familyName}}
+                    <tr>
+                        <th scope="row">Last Name</th>
+                        <td>{{user.familyName}}</td>
+                    </tr>
+                    {{/if}}
+
+                    {{#if user.emails}}
+                    <tr>
+                        <th scope="row">Primary Email</th>
+                        <td>{{user.emails}}</td>
+                    </tr>
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-5"></div>
+    </div>
+</div>

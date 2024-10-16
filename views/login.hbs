@@ -5,8 +5,15 @@
         <div class="col-md-2">
             <form method='POST' action='/users/login'>
 
+                <!-- Message if exists -->
+                {{#if message}}
+                    <div class="form-group row align-items-center mb-3" >
+                        <h5 class="text-danger fw-bold" style="padding: 0px;">{{message}}</h5>
+                    </div>
+                {{/if}}
+
                 <!-- Input Username -->
-                <div class="form-group row align-items-center mb-2 ">
+                <div class="form-group row align-items-center mb-2">
                     <label for="username" class="col-form-label" style="padding: 0px;"><h5>User Name:</h5></label>
                     <input type='text' class='form-control' id='username' placeholder='' name='username' value=''/>
                 </div>
