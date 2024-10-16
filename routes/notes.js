@@ -1,15 +1,18 @@
 import { default as express } from 'express';
+
 import { NotesStore as notes } from '../app.js';
+import { ensureAuthenticated } from './users.js';
 
 export const router = express.Router();
 
 // Add a new note (CREATE)
-router.get('/add', async (req, res, next) => {
+router.get('/add', ensureAuthenticated, async (req, res, next) => {
     try {
         res.render('note_edit', {
             title: 'Add a new Note',
             create: true,
             noteKey: '',
+            user: req.user,
             note: undefined
         });
     } catch (err) {
@@ -17,7 +20,7 @@ router.get('/add', async (req, res, next) => {
     }
 });
 
-router.get('/edit', async (req, res, next) => {
+router.get('/edit', ensureAuthenticated, async (req, res, next) => {
     try {
         const note = await notes.read(req.query.key);
 
@@ -25,6 +28,7 @@ router.get('/edit', async (req, res, next) => {
             title: 'Edit Note',
             create: false,
             noteKey: req.query.key ?? '',
+            user: req.user,
             note: note
         });
     } catch (err) {
@@ -33,7 +37,7 @@ router.get('/edit', async (req, res, next) => {
 });
 
 // Save a new note (CREATE/UPDATE)
-router.post('/save', async (req, res, next) => {
+router.post('/save', ensureAuthenticated, async (req, res, next) => {
     try {
         const operation = req.body.operation;
         if (operation === 'create') {
@@ -48,14 +52,15 @@ router.post('/save', async (req, res, next) => {
 });
 
 // Read and Display Note (READ)
-router.get('/view', async (req, res, next) => {
-    try { 
+router.get('/view', ensureAuthenticated, async (req, res, next) => {
+    try {
         let note = await notes.read(req.query.key);
 
         res.render('note_view', {
             title: '',
             noteKey: req.query.key,
-            note: note
+            note: note,
+            user: req.user
         });
     } catch (e) {
         next(e);
@@ -63,14 +68,15 @@ router.get('/view', async (req, res, next) => {
 });
 
 // Confirm delete the note
-router.get('/destroy', async (req, res, next) => {
+router.get('/destroy', ensureAuthenticated, async (req, res, next) => {
     try {
         let note = await notes.read(req.query.key);
 
         res.render('note_delete', {
             title: '',
             noteKey: req.query.key,
-            note: note
+            note: note,
+            user: req.user
         });
     } catch (e) {
         next(e);
@@ -78,7 +84,7 @@ router.get('/destroy', async (req, res, next) => {
 });
 
 // Delete the note (DELETE)
-router.post('/destroy/confirm', async (req, res, next) => {
+router.post('/destroy/confirm', ensureAuthenticated, async (req, res, next) => {
     try {
         await notes.destroy(req.body.noteKey);
         res.redirect('/');

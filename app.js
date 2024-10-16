@@ -3,23 +3,29 @@ import * as path from 'path';
 import { default as hbs } from'hbs';
 import { default as logger } from 'morgan';
 import { default as bodyParser } from 'body-parser';
+import session from 'express-session';
+import SessionFileStore from 'session-file-store';
 
 import { appRootDir } from './app-root-dir.js';
 import { normalizePort } from './app-utils.js';
 import { default as ErrorHandler } from './error-handler.js';
 import { createLogFileStream, log, logError } from './app-logger.js';
 import { getNoteStore } from './models/note-store-factory.js';
+import { initPassport } from './routes/users.js';
 
 import { router as indexRouter } from './routes/index.js';
 import { router as notesRouter } from './routes/notes.js';
+import { router as usersRouter } from './routes/users.js';
 
 export const app = express();
 export let NotesStore;
+export const sessionCookieName = 'notescookie.sid';
 
 const __dirname  = appRootDir;
 const APP_PORT   = 3000;
 const PORT       = normalizePort(process.env.PORT || APP_PORT);
 const LOG_FORMAT = process.env.REQ_LOG_FORMAT || 'dev';
+const FileStore  = SessionFileStore(session);
 
 getNoteStore('mongodb')
 .then(store => {
@@ -42,13 +48,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/assets/vendor/feather-icons', express.static(path.join(__dirname, 'node_modules', 'feather-icons', 'dist')));
+app.use('/assets/vendor/popper/js',
+    express.static(path.join(__dirname, 'node_modules', '@popperjs', 'core', 'dist', 'umd')));
 app.use('/assets/vendor/bootstrap/js',
         express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'js')));
-app.use('/assets/vendor/bootstrap/css', 
+app.use('/assets/vendor/bootstrap/css',
         express.static(path.join(__dirname, 'theme', 'superhero')));
+
+app.use(session({
+    store: new FileStore({ path: 'sessions' }),
+    secret: 'keypad screen',
+    resave: true,
+    saveUninitialized: true,
+    name: sessionCookieName
+}));
+initPassport(app);
 
 app.use('/', indexRouter);
 app.use('/notes', notesRouter);
+app.use('/users', usersRouter);
 
 // error handlers
 app.use(ErrorHandler.handle404);
@@ -58,7 +76,7 @@ const server = app.listen(PORT, () => {
     log(`App listening on port ${PORT}`);
 });
 
-server.on('error', (e) => { 
+server.on('error', (e) => {
     logError(e);
     ErrorHandler.onError(e, PORT);
 });

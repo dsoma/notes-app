@@ -1,6 +1,6 @@
 
 <form method='POST' action='/notes/save'>
-<div class="container-fluid">
+<div class="container-fluid mid-section-body">
     {{#if create}}
         <input type='hidden' name='operation' value='create'>
     {{else}}
@@ -13,7 +13,7 @@
         <label for="notekey" class="col-md-1 col-form-label"><h5>Key</h5></label>
         {{#if create}}
             <div class="col-md-7">
-                <input type='text' class="form-control" placeholder="Note key" name='noteKey' value=''/>   
+                <input type='text' class="form-control" placeholder="Note key" name='noteKey' value=''/>
             </div>
         {{else}}
             <div class="col-md-7">
@@ -44,10 +44,10 @@
         </div>
         <div class="col-md-2"></div>
     </div>
-    
+
     <div class="form-group row align-items-center mb-2 d-flex justify-content-center">
         <button type="submit" class="col-auto btn btn-primary" data-bs-theme="dark">Submit</button>
     </div>
-    
+
 </div>
 </form>
