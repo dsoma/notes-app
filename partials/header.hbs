@@ -1,26 +1,73 @@
-<nav class="navbar sticky-top navbar-expand-sm bg-primary bg-gradient" data-bs-theme="dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">
-            <i data-feather="pen-tool" alt="Logo" width="35" height="28" class="d-inline-block align-text-bottom"></i>
-            <span class="fs-4 fw-bold">Notes</span>
-        </a>
+<nav class="navbar sticky-top navbar-expand-lg bg-primary bg-gradient" data-bs-theme="dark">
+    <div class="container">
+        {{#if user}}
+            <a class="navbar-brand" href="/myHome">
+                <i data-feather="pen-tool" alt="Logo" width="35" height="28" class="d-inline-block align-text-bottom"></i>
+                <span class="fs-4 fw-bold">Notes</span>
+            </a>
+        {{else}}
+            <a class="navbar-brand" href="/">
+                <i data-feather="pen-tool" alt="Logo" width="35" height="28" class="d-inline-block align-text-bottom"></i>
+                <span class="fs-4 fw-bold">Notes</span>
+            </a>
+        {{/if}}
 
         <!-- Toggler button and dropdown navbar menu -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarLogIn"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <span class="fs-4 text-center col">{{title}}</span>
+        {{#if user}}
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <span class="fs-4 text-center col">{{title}}</span>
 
-            <div class="navbar-nav col-auto">
-                <a class="nav-item nav-link active" href="/notes/add">
-                <i data-feather="file-plus" width="36" height="28" alt="Add a note"
-                    class="d-inline-block align-text-bottom"></i>
-                    <span class="fs-4 fw-light">Add</span>
-                </a>
+                <ul class="navbar-nav me-auto" style="margin-left: auto;">
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="fs-5 fw-bold">{{ user.username }}</span>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/users/profile">
+                                <span class="fs-6 fw-regular">Profile</span></a></li>
+                            <li class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/users/logout">
+                                <span class="fs-6 fw-regular">Log out</span></a></li>
+                        </ul>
+                    </li>
+
+                    {{!-- <li class="nav-item">
+                        <a class="nav-link active" href="/users/logout">
+                        <i data-feather="log-out" width="36" height="28" alt="Logout"
+                            class="d-inline-block align-text-bottom"></i>
+                            <span class="fs-4 fw-regular">Logout</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/notes/add">
+                        <i data-feather="file-plus" width="36" height="28" alt="Add a note"
+                            class="d-inline-block align-text-bottom"></i>
+                            <span class="fs-4 fw-regular">Add</span>
+                        </a>
+                    </li>  --}}
+                </ul>
             </div>
-            
-        </div>
+        {{else}}
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav col-auto" style="margin-left: auto;">
+                    <a class="nav-item nav-link active" href="/users/login">
+                        <i data-feather="log-in" width="36" height="28" alt="Login"
+                            class="d-inline-block align-text-bottom"></i>
+                        <span class="fs-4 fw-regular">Login</span>
+                    </a>
+                </div>
+            </div>
+        {{/if}}
     </div>
 </nav>

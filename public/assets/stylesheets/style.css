@@ -7,7 +7,11 @@ a {
 }
 
 .mid-section {
-    padding: 10px;
+    min-height: inherit;
+}
+
+.mid-section-body {
+    padding: 15px;
 }
 
 .note-head {
@@ -23,4 +27,11 @@ a {
     background-color: #2E8B57; /* Sea Green */
     font-weight: bold;
     text-emphasis-color: white;
+}
+
+.home-bg {
+    background-image: url('../images/home-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: inherit;
 }

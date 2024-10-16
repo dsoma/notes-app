@@ -1,0 +1,37 @@
+<div class="container-fluid mid-section-body" ></div>
+
+    <div class="row mb-3">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="card text-white bg-dark">
+                <div class="card-body" style='border-style: dashed;'>
+                    <a href="/notes/add" class="nav-link active">
+                        <i data-feather="file-plus" width="36" height="28" alt="Login"
+                            class="d-inline-block align-text-bottom"></i>
+                        <span class="fs-4 fw-regular">Create a new note</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    {{#each notes}}
+    <div class="row">
+        <div class="col-md-3"></div>
+
+        <div class="col-md-6">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-body">
+                    <a href="/notes/view?key={{key}}" class="card-link">
+                        <h4 class="card-title">{{title}}</h4>
+                    </a>
+                    <p class="card-text text-truncate">{{content}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3"></div>
+    </div>
+    {{/each}}
+</div>
