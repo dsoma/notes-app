@@ -38,10 +38,38 @@ router.get('/login', (req, res, next) => {
 });
 
 // User login authentication
-router.post('/login', Passport.authenticate('local', {
-    successRedirect: '/myHome',
-    failureRedirect: '/login'
-}));
+// router.post('/login', Passport.authenticate('local', {
+//     successRedirect: '/myHome',
+//     failureRedirect: '/users/login',
+//     failureMessage: true
+// }));
+
+router.post('/login', async (req, res, next) => {
+    Passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+
+        if (!user) {
+            const message = info || 'Incorrect username or password';
+            return res.render('login', { title: 'Login', user: req.user, message });
+        }
+
+        req.login(user, (err) => {
+            if (err) { return next(err); }
+            return res.redirect('/myHome/');
+        });
+    })(req, res, next);
+});
+
+// Profile page
+router.get('/profile', ensureAuthenticated, (req, res, next) => {
+    try {
+        res.render('profile', { title: 'Profile', user: req.user });
+    } catch (e) {
+        next(e);
+    }
+});
 
 // Logout
 router.get('/logout', (req, res, next) => {
@@ -64,7 +92,6 @@ Passport.use(new LocalStrategy(async (username, password, callback) => {
             const username = result.username;
             callback(null, { id: username, username });
         } else {
-
             callback(null, false, result.message);
         }
     } catch (e) {
