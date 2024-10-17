@@ -5,7 +5,6 @@ import passportTwitter from 'passport-twitter';
 
 import { sessionCookieName } from '../app.js';
 import { default as UsersDb } from '../models/users-client.js';
-import { log } from '../app-logger.js';
 
 export const router = express.Router();
 
@@ -148,7 +147,6 @@ if (process.env.TWITTER_CONSUMER_KEY && process.env.TWITTER_CONSUMER_SECRET) {
     },
     async (token, tokenSecret, profile, done) => {
         try {
-            log(`Twitter callback. profile = ${profile}`);
             const user = await UsersDb.findOrCreate({
                 id: profile.username,
                 username: profile.username,

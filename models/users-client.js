@@ -1,11 +1,20 @@
 import { default as superagent } from 'superagent';
+import { default as bcrypt } from 'bcrypt';
+
 import url from 'url';
 
 const URL = url.URL;
 const authId = 'them';
 const authCode = 'd950b890-a8fc-466b-8f47-b8b5aaf7c80c';
+const saltRounds = 10;
 
 export default class UsersDbClient {
+
+    static async hashpass(password) {
+        let salt = await bcrypt.genSalt(saltRounds);
+        let hashed = await bcrypt.hash(password, salt);
+        return hashed;
+    }
 
     static async authenticateUser(username, password) {
         const response = await UsersDbClient._post('/auth-check', { username, password });
@@ -13,7 +22,9 @@ export default class UsersDbClient {
     }
 
     static async create(user) {
-        const response = await UsersDbClient._post('/create-user', user.toJson());
+        const userData = user.toJson();
+        userData.password = await UsersDbClient.hashpass(userData.password);
+        const response = await UsersDbClient._post('/create-user', userData);
         return response.body;
     }
 
@@ -23,7 +34,16 @@ export default class UsersDbClient {
     }
 
     static async findOrCreate(user) {
-        const response = await UsersDbClient._post('/find-or-create', user);
+        const userData = user;
+        userData.password = await UsersDbClient.hashpass(user.password);
+        const response = await UsersDbClient._post('/find-or-create', userData);
+        return response.body;
+    }
+
+    static async update(user) {
+        const userData = user;
+        userData.password = await UsersDbClient.hashpass(user.password);
+        const response = await UsersDbClient._post(`/update/${user.username}`, userData);
         return response.body;
     }
 
