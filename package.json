@@ -15,6 +15,7 @@
         "sqlite3-setup": "sqlite3 ./data/notes.sqlite3 --init ./models/schema-sqlite3.sql"
     },
     "dependencies": {
+        "bcrypt": "^5.1.1",
         "bootstrap": "^5.3.3",
         "cross-env": "^7.0.3",
         "dotenv": "^16.4.5",
