@@ -6,16 +6,18 @@ import { default as bodyParser } from 'body-parser';
 import session from 'express-session';
 import SessionFileStore from 'session-file-store';
 
+// eslint-disable-next-line no-unused-vars
+import dotenv from 'dotenv/config.js';
+
 import { appRootDir } from './app-root-dir.js';
 import { normalizePort } from './app-utils.js';
 import { default as ErrorHandler } from './error-handler.js';
 import { createLogFileStream, log, logError } from './app-logger.js';
 import { getNoteStore } from './models/note-store-factory.js';
-import { initPassport } from './routes/users.js';
 
 import { router as indexRouter } from './routes/index.js';
 import { router as notesRouter } from './routes/notes.js';
-import { router as usersRouter } from './routes/users.js';
+import { router as usersRouter, initPassport } from './routes/users.js';
 
 export const app = express();
 export let NotesStore;
@@ -27,7 +29,7 @@ const PORT       = normalizePort(process.env.PORT || APP_PORT);
 const LOG_FORMAT = process.env.REQ_LOG_FORMAT || 'dev';
 const FileStore  = SessionFileStore(session);
 
-getNoteStore('mongodb')
+getNoteStore('sequelize', 'sequelize-sqlite.yaml')
 .then(store => {
     NotesStore = store;
 })

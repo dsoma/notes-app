@@ -1,13 +1,16 @@
 import { default as express } from 'express';
 import { default as Passport } from 'passport';
 import { default as PassportLocal } from 'passport-local';
+import passportTwitter from 'passport-twitter';
 
 import { sessionCookieName } from '../app.js';
 import { default as UsersDb } from '../models/users-client.js';
+import { log } from '../app-logger.js';
 
 export const router = express.Router();
 
-const LocalStrategy = PassportLocal.Strategy;
+const LocalStrategy   = PassportLocal.Strategy;
+const TwitterStrategy = passportTwitter.Strategy;
 
 export function initPassport(app) {
     app.use(Passport.initialize());
@@ -84,6 +87,13 @@ router.get('/logout', (req, res, next) => {
     }
 });
 
+router.get('/auth/twitter/', Passport.authenticate('twitter'));
+
+router.get('/auth/twitter/callback', Passport.authenticate('twitter', {
+    successRedirect: '/myHome',
+    failureRedirect: '/users/login'
+}));
+
 // Authenticate user using Passport local strategy
 Passport.use(new LocalStrategy(async (username, password, callback) => {
     try {
@@ -122,3 +132,39 @@ Passport.deserializeUser(async (username, callback) => {
         callback(e);
     }
 });
+
+// Setup and use Twitter strategy to authenticate
+const twitterCallback = process.env.TWITTER_CALLBACK_HOST
+                      ? process.env.TWITTER_CALLBACK_HOST
+                      : 'http://localhost:3000';
+
+export let twitterLogin = false;
+
+if (process.env.TWITTER_CONSUMER_KEY && process.env.TWITTER_CONSUMER_SECRET) {
+    Passport.use(new TwitterStrategy({
+        consumerKey: process.env.TWITTER_CONSUMER_KEY,
+        consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+        callbackURL: `${twitterCallback}/users/auth/twitter/callback`
+    },
+    async (token, tokenSecret, profile, done) => {
+        try {
+            log(`Twitter callback. profile = ${profile}`);
+            const user = await UsersDb.findOrCreate({
+                id: profile.username,
+                username: profile.username,
+                password: '',
+                provider: profile.provider,
+                familyName: profile.displayName,
+                givenName: '',
+                middleName: '',
+                photos: profile.photos,
+                emails: profile.emails
+            });
+            done(null, user);
+        } catch (e) {
+            done(e);
+        }
+    }));
+
+    twitterLogin = true;
+}

@@ -9,10 +9,17 @@
                         <td>{{user.username}}</td>
                     </tr>
 
+                    {{#if user.givenName}}
                     <tr>
                         <th scope="row">First Name</th>
                         <td>{{user.givenName}}</td>
                     </tr>
+                    {{else}}
+                    <tr>
+                        <th scope="row">First Name</th>
+                        <td>{{user.displayName}}</td>
+                    </tr>
+                    {{/if}}
 
                     {{#if user.middleName}}
                     <tr>

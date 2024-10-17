@@ -22,6 +22,11 @@ export default class UsersDbClient {
         return response.body;
     }
 
+    static async findOrCreate(user) {
+        const response = await UsersDbClient._post('/find-or-create', user);
+        return response.body;
+    }
+
     static _getUserAuthServiceUrl(path) {
         const requestUrl = new URL(process.env.USER_SERVICE_URL);
         requestUrl.pathname = path;

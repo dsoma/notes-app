@@ -1,21 +1,4 @@
 <div class="container-fluid home-bg mid-section-body d-flex flex-column align-items-center justify-content-center">
-    {{!-- {{#each notes}}
-    <div class="row">
-        <div class="col-md-3"></div>
-
-        <div class="col-md-6">
-            <div class="card text-white bg-secondary mb-3">
-                <div class="card-body">
-                    <a href="/notes/view?key={{key}}" class="card-link"><h4 class="card-title">{{title}}</h4></a>
-                    <p class="card-text text-truncate">{{content}}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3"></div>
-    </div>
-    {{/each}} --}}
-
     <div class="row text-center">
         <div>
             <h1>Your Minimalist Notes App</h1>
@@ -23,6 +6,15 @@
             <a href="/users/login">
             <button type="button" class="btn btn-primary btn-lg">Login</button>
             </a>
+
+            {{#if twitterLogin}}
+            <a href="/users/auth/twitter">
+            <button type="button" class="btn btn-dark btn-lg">Login with
+                <img src="/assets/images/x-logo-white.png" width="20" height="20">
+            </button>
+            </a>
+            {{/if}}
+
             <button type="button" class="btn btn-secondary btn-lg">Sign Up</button>
         </div>
     </div>
