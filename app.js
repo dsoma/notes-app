@@ -28,8 +28,10 @@ const APP_PORT   = 3000;
 const PORT       = normalizePort(process.env.PORT || APP_PORT);
 const LOG_FORMAT = process.env.REQ_LOG_FORMAT || 'dev';
 const FileStore  = SessionFileStore(session);
+const DB_CONFIG  = process.env.DB_CONFIG || 'sequelize-sqlite.yaml';
+const NOTES_DB   = process.env.NOTES_DB  || 'sequelize';
 
-getNoteStore('sequelize', 'sequelize-sqlite.yaml')
+getNoteStore(NOTES_DB, DB_CONFIG)
 .then(store => {
     NotesStore = store;
 })
