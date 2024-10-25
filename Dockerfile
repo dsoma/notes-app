@@ -1,10 +1,9 @@
 FROM node:20
 
-RUN apt-get update -y && apt-get upgrade -y && apt-get -y install curl build-essential git
+RUN apt-get update -y && apt-get upgrade -y && apt-get -y install curl build-essential git iputils-ping
 
 ENV DEBUG="notes:*"
 ENV REQ_LOG_FORMAT="common"
-ENV PORT="3000"
 ENV HOST="0.0.0.0"
 ENV DB_CONFIG="sequelize-mysql.yaml"
 ENV NOTES_DB="sequelize"
