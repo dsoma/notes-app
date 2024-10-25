@@ -1,0 +1,105 @@
+# name: notes
+
+services:
+    db-user-auth:
+        image: "mysql:9.0"
+        container_name: db-user-auth
+        command: [  "mysqld",
+                    "--character-set-server=utf8mb4",
+                    "--collation-server=utf8mb4_unicode_ci",
+                    "--bind-address=0.0.0.0" ]
+        expose:
+            - "3306"
+        networks:
+            - authnet
+        volumes:
+            - mysql-db-data:/var/lib/mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: "mysql_1234_Mrum"
+            MYSQL_USER: user
+            MYSQL_PASSWORD: user
+            MYSQL_DATABASE: users
+            DATABASE_HOST: db-user-auth
+
+    svc-user-auth:
+        # build: https://github.com/dsoma/user-auth-server.git
+        build: ../user-auth-server/
+        container_name: svc-user-auth
+        depends_on:
+            - db-user-auth
+        networks:
+            - authnet
+            - svcnet
+        ports:
+            - "3301:3301"
+        restart: unless-stopped
+
+    db-notes:
+        image: "mysql:9.0"
+        container_name: "db-notes"
+        command: [  "mysqld",
+                    "--character-set-server=utf8mb4",
+                    "--collation-server=utf8mb4_unicode_ci",
+                    "--bind-address=0.0.0.0" ]
+        expose:
+            - "3306"
+        networks:
+            - frontnet
+        volumes:
+            - mysql-db-data-notes:/var/lib/mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: "mysql_1234_Mrum"
+            MYSQL_USER: notes
+            MYSQL_PASSWORD: notes
+            MYSQL_DATABASE: notes
+            DATABASE_HOST: db-notes
+
+    svc-notes:
+        build: ./
+        container_name: svc-notes
+        depends_on:
+            - db-notes
+        networks:
+            - frontnet
+            - svcnet
+        ports:
+            - "3000:3000"
+        restart: unless-stopped
+        environment:
+            PORT: 3000
+            REDIS_ENDPOINT: "redis"
+
+    svc-notes-2:
+        build: ./
+        container_name: svc-notes-2
+        depends_on:
+            - db-notes
+        networks:
+            - frontnet
+            - svcnet
+        ports:
+            - "3020:3020"
+        restart: unless-stopped
+        environment:
+            PORT: 3020
+            REDIS_ENDPOINT: "redis"
+
+    redis:
+        image: "redis:7.0"
+        container_name: redis
+        networks:
+            - frontnet
+
+networks:
+    frontnet:
+        driver: bridge
+    authnet:
+        driver: bridge
+    svcnet:
+        driver: bridge
+
+volumes:
+    mysql-db-data:
+    mysql-db-data-notes:
