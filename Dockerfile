@@ -8,6 +8,8 @@ ENV HOST="0.0.0.0"
 ENV DB_CONFIG="sequelize-mysql.yaml"
 ENV NOTES_DB="sequelize"
 ENV USER_SERVICE_URL="http://svc-user-auth:3301"
+ENV REDIS_HOST="redis"
+ENV REDIS_PORT=6379
 
 RUN mkdir -p /notes /notes/models /notes/partials /notes/public /notes/routes /notes/theme /notes/views
 

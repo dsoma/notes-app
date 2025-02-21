@@ -1,6 +1,6 @@
 import { default as express } from 'express';
 
-import { NotesStore as notes } from '../app.js';
+import { notesStore as notes } from '../app.js';
 import { ensureAuthenticated } from './users.js';
 
 export const router = express.Router();

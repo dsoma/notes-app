@@ -1,5 +1,5 @@
 import { default as express } from 'express';
-import { NotesStore } from '../app.js';
+import { notesStore } from '../app.js';
 import { twitterLogin } from './users.js';
 
 export const router = express.Router();
@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/myHome/', async (req, res, next) => {
     try {
-        const allNotes = await NotesStore.getAllNotes();
+        const allNotes = await notesStore.getAllNotes();
         res.render('personal_home', {
             title: '',
             notes: allNotes,

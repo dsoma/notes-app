@@ -1,6 +1,17 @@
 # name: notes
 
 services:
+
+    redis:
+        image: "redis:7.0"
+        container_name: redis
+        networks:
+            - frontnet
+        ports:
+            - "6379:6379"
+        command: redis-server --loglevel verbose
+        restart: unless-stopped
+
     db-user-auth:
         image: "mysql:9.0"
         container_name: db-user-auth
@@ -61,6 +72,8 @@ services:
         container_name: svc-notes
         depends_on:
             - db-notes
+            - redis
+            - svc-user-auth
         networks:
             - frontnet
             - svcnet
@@ -69,28 +82,27 @@ services:
         restart: unless-stopped
         environment:
             PORT: 3000
-            REDIS_ENDPOINT: "redis"
+            REDIS_HOST: "redis"
+            REDIS_PORT: 6379
 
-    svc-notes-2:
-        build: ./
-        container_name: svc-notes-2
-        depends_on:
-            - db-notes
-        networks:
-            - frontnet
-            - svcnet
-        ports:
-            - "3020:3020"
-        restart: unless-stopped
-        environment:
-            PORT: 3020
-            REDIS_ENDPOINT: "redis"
-
-    redis:
-        image: "redis:7.0"
-        container_name: redis
-        networks:
-            - frontnet
+    # Use it to test second container deployment
+    # svc-notes-2:
+    #     build: ./
+    #     container_name: svc-notes-2
+    #     depends_on:
+    #         - db-notes
+    #         - redis
+    #         - svc-user-auth
+    #     networks:
+    #         - frontnet
+    #         - svcnet
+    #     ports:
+    #         - "3020:3020"
+    #     restart: unless-stopped
+    #     environment:
+    #         PORT: 3020
+    #         REDIS_HOST: "redis"
+    #         REDIS_PORT: 6379
 
 networks:
     frontnet:
@@ -103,3 +115,4 @@ networks:
 volumes:
     mysql-db-data:
     mysql-db-data-notes:
+    notes-session-data:
