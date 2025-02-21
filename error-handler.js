@@ -16,11 +16,11 @@ export default class ErrorHandler {
         if (res.headersSent) {
             return next(err);
         }
-    
+
         // set locals, only providing error in development
         res.locals.message = err.message;
         res.locals.error   = req.app.get('env') === 'development' ? err : {};
-    
+
         // render the error page
         res.status(err.status || DEFAULT_ERR);
         res.render('error');
@@ -33,11 +33,11 @@ export default class ErrorHandler {
         if (error.syscall !== 'listen') {
             throw error;
         }
-    
+
         const bind = typeof port === 'string'
                 ? 'Pipe ' + port
                 : 'Port ' + port;
-    
+
         // handle specific listen errors with friendly messages
         switch (error.code) {
             case 'EACCES':
@@ -50,6 +50,10 @@ export default class ErrorHandler {
 
             case 'ENOTESSTORE':
                 console.error(`Notes data store init failure because `, error.error);
+                process.exit(1);
+
+            case 'ESESSIONSTORE':
+                console.error(`Notes session store init failure because `, error.error);
                 process.exit(1);
 
             default:

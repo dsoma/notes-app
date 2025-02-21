@@ -2,6 +2,7 @@
 .DS_Store
 .npm
 .env
+dump.rdb
 /log/
 /data/
 /bin/
