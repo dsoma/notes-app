@@ -2,6 +2,7 @@ import { default as express } from 'express';
 import { default as Passport } from 'passport';
 import { default as PassportLocal } from 'passport-local';
 import passportTwitter from 'passport-twitter';
+import fs from 'fs-extra';
 
 import { sessionCookieName } from '../app.js';
 import { default as UsersDb } from '../models/users-client.js';
@@ -139,10 +140,33 @@ const twitterCallback = process.env.TWITTER_CALLBACK_HOST
 
 export let twitterLogin = false;
 
-if (process.env.TWITTER_CONSUMER_KEY && process.env.TWITTER_CONSUMER_SECRET) {
+
+function getTwitterSecrets() {
+    let consumerKey;
+    let consumerSecret;
+
+    if (process.env.TWITTER_CONSUMER_KEY && process.env.TWITTER_CONSUMER_SECRET) {
+        consumerKey = process.env.TWITTER_CONSUMER_KEY;
+        consumerSecret = process.env.TWITTER_CONSUMER_SECRET;
+        twitterLogin = true;
+    } else if (process.env.TWITTER_CONSUMER_KEY_FILE && process.env.TWITTER_CONSUMER_SECRET_FILE) {
+        consumerKey = fs.readFileSync(process.env.TWITTER_CONSUMER_KEY_FILE, 'utf8');
+        consumerSecret = fs.readFileSync(process.env.TWITTER_CONSUMER_SECRET_FILE, 'utf8');
+        twitterLogin = true;
+    }
+
+    return {
+        consumerKey,
+        consumerSecret
+    };
+}
+
+let { consumerKey, consumerSecret } = getTwitterSecrets();
+
+if (twitterLogin) {
     Passport.use(new TwitterStrategy({
-        consumerKey: process.env.TWITTER_CONSUMER_KEY,
-        consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+        consumerKey: consumerKey,
+        consumerSecret: consumerSecret,
         callbackURL: `${twitterCallback}/users/auth/twitter/callback`
     },
     async (token, tokenSecret, profile, done) => {
@@ -163,6 +187,4 @@ if (process.env.TWITTER_CONSUMER_KEY && process.env.TWITTER_CONSUMER_SECRET) {
             done(e);
         }
     }));
-
-    twitterLogin = true;
 }
