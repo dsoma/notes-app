@@ -1,4 +1,4 @@
-name: notes-app
+#name: notes-app
 version: '3.8'
 
 services:
@@ -10,12 +10,12 @@ services:
             - frontnet
         ports:
             - "6379:6379"
-        command: redis-server --loglevel verbose
+        command: redis-server --loglevel verbose --replica-read-only no
         restart: unless-stopped
         volumes:
-            type: bind
-            source: /data/notes-session-data
-            target: /var/lib/redis
+            - type: bind
+              source: /data/notes-session-data
+              target: /var/lib/redis
         deploy:
             mode: replicated
             replicas: 1
@@ -36,9 +36,9 @@ services:
             - authnet
         volumes:
             # - mysql-db-data:/var/lib/mysql
-            type: bind
-            source: /data/mysql-db-data
-            target: /var/lib/mysql
+            - type: bind
+              source: /data/mysql-db-data
+              target: /var/lib/mysql
         restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: "mysql_1234_Mrum"
@@ -86,9 +86,9 @@ services:
             - frontnet
         volumes:
             # - mysql-db-data-notes:/var/lib/mysql
-            type: bind
-            source: /data/mysql-db-data-notes
-            target: /var/lib/mysql
+            - type: bind
+              source: /data/mysql-db-data-notes
+              target: /var/lib/mysql
         restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: "mysql_1234_Mrum"
@@ -124,6 +124,7 @@ services:
             PORT: 3000
             REDIS_HOST: "redis"
             REDIS_PORT: 6379
+            TWITTER_CALLBACK_HOST: "http://ec2-52-41-178-220.us-west-2.compute.amazonaws.com:3000"
             TWITTER_CONSUMER_KEY_FILE: /var/run/secrets/TWITTER_CONSUMER_KEY
             TWITTER_CONSUMER_SECRET_FILE: /var/run/secrets/TWITTER_CONSUMER_SECRET
         deploy:
