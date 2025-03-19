@@ -11,3 +11,4 @@ dump.rdb
 terraform/.terraform.lock.hcl
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
+test/data/notes-test-sequelize.sqlite3

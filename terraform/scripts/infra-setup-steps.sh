@@ -39,3 +39,6 @@ printf '<TWITTER_CONSUMER_SECRET>' | docker secret create TWITTER_CONSUMER_SECRE
 sh ec2-login.sh
 
 # Adjust Twitter callback url env var and on https://developer.x.com/en/portal/projects/1846644753611517952/apps/29477198/settings
+
+# A node leaving the swarm:
+# docker swarm leave --force

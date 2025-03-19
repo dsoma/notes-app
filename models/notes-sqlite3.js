@@ -14,7 +14,7 @@ export default class NotesSqliteDB extends AbstractNotesStore {
         await new Promise((resolve, reject) => {
             const query = "INSERT INTO notes (key, title, content) " +
                           "VALUES ( ?, ?, ? );";
-            this._db.run(query, [ key, title, content ], 
+            this._db.run(query, [ key, title, content ],
                 err => {
                     if (err) return reject(err);
                     resolve(note);
@@ -29,7 +29,7 @@ export default class NotesSqliteDB extends AbstractNotesStore {
         const note = new Note(key, title, content);
         await new Promise((resolve, reject) => {
             const query = "UPDATE notes SET title = ?, content = ? WHERE key = ?";
-            this._db.run(query, [ title, content, key ], 
+            this._db.run(query, [ title, content, key ],
                 err => {
                     if (err) return reject(err);
                     resolve(note);
@@ -46,6 +46,7 @@ export default class NotesSqliteDB extends AbstractNotesStore {
             this._db.get(query, [key],
                 (err, row) => {
                     if (err) return reject(err);
+                    if (!row) return reject(new Error(`No Note found for key = ${key}`));
                     const note = row ? new Note(row.key, row.title, row.content) : {};
                     resolve(note);
                 }
@@ -57,7 +58,7 @@ export default class NotesSqliteDB extends AbstractNotesStore {
         this._db = await this._connect();
         return await new Promise((resolve, reject) => {
             const query = "DELETE FROM notes WHERE key = ?;";
-            this._db.run(query, [key], 
+            this._db.run(query, [key],
                 err => {
                     if (err) return reject(err);
                     resolve();
@@ -113,7 +114,7 @@ export default class NotesSqliteDB extends AbstractNotesStore {
                 else {
                     this._db = undefined;
                     resolve();
-                } 
+                }
             });
         });
     }
@@ -124,7 +125,7 @@ export default class NotesSqliteDB extends AbstractNotesStore {
         }
 
         this._db = await new Promise((resolve, reject) => {
-            const db = new sqlite3.Database('data/notes.sqlite3', 
+            const db = new sqlite3.Database('data/notes.sqlite3',
                 sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
                 err => {
                     if (err) return reject(err);

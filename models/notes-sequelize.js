@@ -10,7 +10,7 @@ const DataTypes = Sequelize.DataTypes;
 export class SQNote extends Sequelize.Model {};
 
 export default class NotesSequelizedDB extends AbstractNotesStore {
-    
+
     constructor(sequelizerConfig) {
         super();
         this._sequelizer = new Sequelizer(sequelizerConfig);
@@ -63,7 +63,7 @@ export default class NotesSequelizedDB extends AbstractNotesStore {
     async keylist() {
         try {
             await this._connect();
-            const sqNotes = await this.SQNote.findAll();
+            const sqNotes = await SQNote.findAll();
             let keys = [];
             sqNotes.map(note => {
                 if (typeof note.key === 'string') {
