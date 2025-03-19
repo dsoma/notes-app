@@ -30,7 +30,8 @@
         "connect-user-auth": "nerdctl network connect frontnet svc-user-auth",
         "deploy": "npm run build-frontnet; npm run build-db-notes && npm run package-notes && npm run build-notes",
         "purge": "npm run stop-service && npm run remove-notes && npm run remove-db-notes && npm run remove-frontnet",
-        "test": "cross-env DEBUG=notes:* NOTES_DB=sequelize NOTES_DIR=test/data/ DB_CONFIG=sequelize-sqlite.yaml USER_API_TEST_URL=http://localhost:3001 vitest"
+        "test": "cross-env DEBUG=notes:* NOTES_DB=sequelize NOTES_DIR=test/data/ DB_CONFIG=sequelize-sqlite.yaml USER_API_TEST_URL=http://localhost:3001 vitest",
+        "func-test": "cross-env USER_API_TEST_URL=http://localhost:3001 NOTES_HOME_URL=http://localhost:3000 vitest ./test/functional/ui-test.js"
     },
     "dependencies": {
         "bcrypt": "^5.1.1",
@@ -61,6 +62,7 @@
     "devDependencies": {
         "eslint": "^9.11.1",
         "globals": "^15.9.0",
+        "puppeteer": "^24.4.0",
         "supertest": "^7.0.0",
         "vitest": "^3.0.8"
     }

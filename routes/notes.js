@@ -87,7 +87,7 @@ router.get('/destroy', ensureAuthenticated, async (req, res, next) => {
 router.post('/destroy/confirm', ensureAuthenticated, async (req, res, next) => {
     try {
         await notes.destroy(req.body.noteKey);
-        res.redirect('/');
+        res.redirect('/myHome');
     } catch(e) {
         next(e);
     }
