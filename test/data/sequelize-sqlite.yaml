@@ -1,0 +1,8 @@
+
+dbName: notes-test
+userName:
+password:
+params:
+    dialect: sqlite
+    storage: ./test/data/notes-test-sequelize.sqlite3
+    logging: false
