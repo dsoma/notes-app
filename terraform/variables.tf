@@ -13,4 +13,4 @@ variable "enable_dns_hostnames" { default = true }
 
 variable "ami_id" { default = "ami-00c257e12d6828491" }
 variable "instance_type" { default = "t2.micro" }
-variable "key_pair" { default = "notes-app" }
+variable "key_pair" { default = "notes-app-0305" }

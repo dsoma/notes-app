@@ -16,3 +16,6 @@ sudo systemctl enable docker
 sudo docker swarm init
 sudo hostname notes-app-public
 sudo docker node update --label-add type=public notes-app-public
+mkdir /home/ubuntu/etc-letsencrypt
+mkdir /home/ubuntu/webroots
+mkdir /home/ubuntu/nginx-conf-d

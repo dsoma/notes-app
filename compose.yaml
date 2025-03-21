@@ -114,8 +114,8 @@ services:
         networks:
             - frontnet
             - svcnet
-        ports:
-            - "3000:3000"
+        # ports:
+        #     - "3000:3000"
         restart: unless-stopped
         secrets:
             - TWITTER_CONSUMER_KEY
@@ -124,7 +124,7 @@ services:
             PORT: 3000
             REDIS_HOST: "redis"
             REDIS_PORT: 6379
-            TWITTER_CALLBACK_HOST: "http://ec2-52-41-178-220.us-west-2.compute.amazonaws.com:3000"
+            TWITTER_CALLBACK_HOST: "http://notes.deesoma.com"
             TWITTER_CONSUMER_KEY_FILE: /var/run/secrets/TWITTER_CONSUMER_KEY
             TWITTER_CONSUMER_SECRET_FILE: /var/run/secrets/TWITTER_CONSUMER_SECRET
         deploy:
@@ -133,6 +133,35 @@ services:
             placement:
                 constraints:
                     - "node.labels.type==public"
+
+    cronginx:
+        image: robogeek/cronginx:latest
+        container_name: cronginx
+        deploy:
+            replicas: 1
+            placement:
+                constraints:
+                    - "node.labels.type==public"
+        networks:
+            - frontnet
+        ports:
+            - 80:80
+            - 443:443
+        dns:
+            - 8.8.8.8
+            - 9.9.9.9
+        restart: always
+        volumes:
+            - type: bind
+              source: /home/ubuntu/etc-letsencrypt
+              target: /etc/letsencrypt
+            - type: bind
+              source: /home/ubuntu/webroots
+              target: /webroots
+            - type: bind
+              source: /home/ubuntu/nginx-conf-d
+              target: /etc/nginx/conf.d
+
 
 networks:
     frontnet:
