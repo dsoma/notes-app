@@ -23,7 +23,7 @@ COPY *.js package.json /notes/
 
 WORKDIR /notes
 
-RUN npm install --unsafe-perm
+RUN npm install --unsafe-perm --logs-dir=.
 
 EXPOSE 3000
 

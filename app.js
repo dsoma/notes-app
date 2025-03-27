@@ -4,6 +4,8 @@ import { default as hbs } from'hbs';
 import { default as logger } from 'morgan';
 import { default as bodyParser } from 'body-parser';
 import session from 'express-session';
+import helmet from 'helmet';
+import forceSSL from 'express-force-ssl';
 
 // eslint-disable-next-line no-unused-vars
 import dotenv from 'dotenv/config.js';
@@ -60,6 +62,32 @@ async function setupApp() {
     app.set('port', PORT);
 
     app.use(logger(LOG_FORMAT, { stream: createLogFileStream(__dirname) }));
+    app.disable("x-powered-by");
+    app.use(helmet());
+
+    // CSP:
+    const cspConnectSrc = ["'self'"];
+    if (process.env.CSP_CONNECT_SRC_URL && typeof process.env.CSP_CONNECT_SRC_URL === 'string') {
+        cspConnectSrc.push(process.env.CSP_CONNECT_SRC_URL);
+    }
+
+    app.use(
+        helmet({
+            contentSecurityPolicy: {
+                directives: {
+                    defaultSrc: ["'self'"],
+                    scriptSrc: ["'self'", "'unsafe-inline'"],
+                    styleSrc: ["'self'", 'fonts.googleapis.com'],
+                    connectSrc: cspConnectSrc
+                    // fontSrc: ["'self'", 'fonts.gstatic.com']
+                }
+            },
+            xDnsPrefetchControl: false,
+            xXssProtection: true
+        })
+    );
+
+    app.use(forceSSL);
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(express.static(path.join(__dirname, 'public')));
@@ -76,7 +104,9 @@ async function setupApp() {
         secret: 'keypad screen',
         resave: false,
         saveUninitialized: false,
-        name: sessionCookieName
+        name: sessionCookieName,
+        secure: true,
+        maxAge: 2 * 60 * 60 * 1000 // 2 hours
     }));
 
     initPassport(app);

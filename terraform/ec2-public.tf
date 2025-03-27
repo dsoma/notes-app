@@ -41,28 +41,78 @@ resource "aws_security_group" "ec2-public-sg" {
   description = "allow inbound access to the EC2 instance"
   vpc_id      = aws_vpc.notes.id
 
-  # ingress {
-  #   protocol    = "TCP"
-  #   from_port   = 22
-  #   to_port     = 22
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
-
-  # ingress {
-  #   protocol    = "TCP"
-  #   from_port   = 80
-  #   to_port     = 80
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
-
   ingress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
+    description = "SSH"
+    protocol    = "TCP"
+    from_port   = 22
+    to_port     = 22
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
+    description = "HTTP"
+    protocol    = "TCP"
+    from_port   = 80
+    to_port     = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTPS"
+    protocol    = "TCP"
+    from_port   = 443
+    to_port     = 443
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "REDIS"
+    protocol    = "TCP"
+    from_port   = 6379
+    to_port     = 6379
+    cidr_blocks = [aws_vpc.notes.cidr_block]
+  }
+
+  ingress {
+    description = "Docker swarm management"
+    protocol    = "TCP"
+    from_port   = 2377
+    to_port     = 2377
+    cidr_blocks = [aws_vpc.notes.cidr_block]
+  }
+
+  ingress {
+    description = "Docker container network discovery"
+    protocol    = "TCP"
+    from_port   = 7946
+    to_port     = 7946
+    cidr_blocks = [aws_vpc.notes.cidr_block]
+  }
+
+  ingress {
+    description = "Docker container network discovery"
+    protocol    = "UDP"
+    from_port   = 7946
+    to_port     = 7946
+    cidr_blocks = [aws_vpc.notes.cidr_block]
+  }
+
+  ingress {
+    description = "Docker overlay network"
+    protocol    = "UDP"
+    from_port   = 4789
+    to_port     = 4789
+    cidr_blocks = [aws_vpc.notes.cidr_block]
+  }
+
+  # ingress {
+  #   protocol    = "-1"
+  #   from_port   = 0
+  #   to_port     = 0
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
+
+  egress {
     description = "Docker swarm (udp)"
     protocol    = "UDP"
     from_port   = 0
